@@ -60,93 +60,93 @@ app = dash.Dash(
 
 
 server = Flask(__name__)
-# server.secret_key ='dfdfdfdf'
-#
-# dforiginal=pd.read_csv('application_test.csv', encoding="UTF-8")
-# dforiginal2=pd.read_csv('df_P7Clean.csv',encoding="UTF-8")
-#
-# df=pd.DataFrame.copy(dforiginal.dropna().head(100))
-# df2=pd.DataFrame.copy(dforiginal2.dropna().head(100))
-# dfPrep=pd.get_dummies(df)
-# dfPrep2=pd.get_dummies(df2)
-# train,test=train_test_split(dfPrep)
-# train2,test2=train_test_split(dfPrep2)
-# x_test=test
-# create(server)
-#
-# df_majority = train2[train2.TARGET == 0]
-# df_minority = train2[train2.TARGET == 1]
-# df_minority_upsampled = resample(df_minority, replace=True, n_samples=df_majority.shape[0], random_state=123)
-# dftrain = pd.concat([df_majority, df_minority_upsampled])
-# dftrain.TARGET.value_counts()
-#
-# x_train2 = dftrain.drop('TARGET', axis=1)
-# y_train2 = dftrain['TARGET']
-# x_test2 = test2.drop('TARGET', axis=1)
-# y_test2 = test2['TARGET']
-# modele = RandomForestClassifier().fit(x_train2, y_train2)
-#
-# xpl = SmartExplainer()
-# xpl.compile(
-#     x=x_test2,
-#     model=modele)
-# app = xpl.run_app(host='http://127.0.0.1:5000/sheeesh')
-#
-#
-# @server.route("/dash")
-# def my_dash_app():
-#   return '<a href=' + url_for('index') + '> retour </a>'
-#
-# with open("pickle_model.pkl", 'rb') as file:
-#    pickle_model = pickle.load(file)
-#
-# def predit(x):
-#     client = dfPrep[dfPrep['SK_ID_CURR'] == x]
-#     discrimination_threshold = 0.2
-#     predictions = (pickle_model.predict_proba(client)[::, 1] > discrimination_threshold) * 1
-#     if int(predictions)==0:
-#         predictt='Votre profil est accepté'
-#     else :
-#         predictt='Votre profil est refusé'
-#     return predictt
-#
-# df['prediction']=df['SK_ID_CURR'].apply(lambda x : predit(x))
-# dfenw=df[['SK_ID_CURR','prediction']]
-# booksdata=dfenw.to_dict(orient="index")
-# print(df.head())
-# print(dfenw.head())
-# print(booksdata)
-# todictionnaire=[data for data in booksdata.values()]
-# print(todictionnaire)
-# json_object = json.dumps(todictionnaire, indent = 1)
-# jj=json.loads(json_object)
+server.secret_key ='dfdfdfdf'
+
+dforiginal=pd.read_csv('application_test.csv', encoding="UTF-8")
+dforiginal2=pd.read_csv('df_P7Clean.csv',encoding="UTF-8")
+
+df=pd.DataFrame.copy(dforiginal.dropna().head(1000))
+df2=pd.DataFrame.copy(dforiginal2.dropna().head(1000))
+dfPrep=pd.get_dummies(df)
+dfPrep2=pd.get_dummies(df2)
+train,test=train_test_split(dfPrep)
+train2,test2=train_test_split(dfPrep2)
+x_test=test
+create(server)
+
+df_majority = train2[train2.TARGET == 0]
+df_minority = train2[train2.TARGET == 1]
+df_minority_upsampled = resample(df_minority, replace=True, n_samples=df_majority.shape[0], random_state=123)
+dftrain = pd.concat([df_majority, df_minority_upsampled])
+dftrain.TARGET.value_counts()
+
+x_train2 = dftrain.drop('TARGET', axis=1)
+y_train2 = dftrain['TARGET']
+x_test2 = test2.drop('TARGET', axis=1)
+y_test2 = test2['TARGET']
+modele = RandomForestClassifier().fit(x_train2, y_train2)
+
+xpl = SmartExplainer()
+xpl.compile(
+    x=x_test2,
+    model=modele)
+app = xpl.run_app(host='localhost')
+
+
+@server.route("/dash")
+def my_dash_app():
+  return '<a href=' + url_for('index') + '> retour </a>'
+
+with open("pickle_model.pkl", 'rb') as file:
+   pickle_model = pickle.load(file)
+
+def predit(x):
+    client = dfPrep[dfPrep['SK_ID_CURR'] == x]
+    discrimination_threshold = 0.2
+    predictions = (pickle_model.predict_proba(client)[::, 1] > discrimination_threshold) * 1
+    if int(predictions)==0:
+        predictt='Votre profil est accepté'
+    else :
+        predictt='Votre profil est refusé'
+    return predictt
+
+df['prediction']=df['SK_ID_CURR'].apply(lambda x : predit(x))
+dfenw=df[['SK_ID_CURR','prediction']]
+booksdata=dfenw.to_dict(orient="index")
+print(df.head())
+print(dfenw.head())
+print(booksdata)
+todictionnaire=[data for data in booksdata.values()]
+print(todictionnaire)
+json_object = json.dumps(todictionnaire, indent = 1)
+jj=json.loads(json_object)
 
 
 @server.route('/')
 def index():
-    return render_template('index.html')
-#
-# @server.before_request
-# def before_request():
-#     g.user = None
-#     if 'user_id' in session:
-#         user = [x for x in users if x.id == session['user_id']][0]
-#         g.user = user
-#
-#
-# @server.route('/resultat', methods=['POST'])
-# def login():
-#         session.pop('user_id', None)
-#         username = request.form['nom']
-#         book = [book for book in jj if book['SK_ID_CURR'] == int(username)]
-#         return render_template("resultat.html", resultat=book[0]['prediction'])
-#
-# @server.route('/sheeesh')
-# def sheesh():
-#     app=xpl.run_app(host='http://127.0.0.1:5000/sheeesh')
-#     return '<a href=' + url_for('index') + '> retour </a>'
-#
-#
+    return render_template('index.html',link=url_for("/dash/"))
+
+@server.before_request
+def before_request():
+    g.user = None
+    if 'user_id' in session:
+        user = [x for x in users if x.id == session['user_id']][0]
+        g.user = user
+
+
+@server.route('/resultat', methods=['POST'])
+def login():
+        session.pop('user_id', None)
+        username = request.form['nom']
+        book = [book for book in jj if book['SK_ID_CURR'] == int(username)]
+        return render_template("resultat.html", resultat=book[0]['prediction'])
+
+@server.route('/sheeesh')
+def sheesh():
+    app=xpl.run_app(host='localhost')
+    return '<a href=' + url_for('index') + '> retour </a>'
+
+
 if __name__=="__main__":
     server.secret_key = 'super secret key'
     server.config['SESSION_TYPE'] = 'filesystem'
