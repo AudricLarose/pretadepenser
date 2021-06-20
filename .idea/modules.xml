@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/pretadepense.iml" filepath="$PROJECT_DIR$/.idea/pretadepense.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/pretadepenser.iml" filepath="$PROJECT_DIR$/.idea/pretadepenser.iml" />
     </modules>
   </component>
 </project>
