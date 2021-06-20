@@ -36,8 +36,6 @@ layout = html.Div([
 
     html.Div(id='output_container2', children=[]),
     html.Br(),
-    dcc.Graph(id='graphique2', figure={}),
-    dcc.Graph(id='graphique3', figure={}),
     dcc.Graph(id='graphique4', figure={}),
     dcc.Graph(id='graphique5', figure={}),
     dcc.Graph(id='graphique7', figure={}),

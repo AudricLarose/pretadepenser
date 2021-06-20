@@ -1,2 +1,2 @@
-web: python mypython/falsk.py
+web: python mypython/index.py
 heroku ps:scale web=1

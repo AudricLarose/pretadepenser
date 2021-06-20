@@ -13,6 +13,9 @@ import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 import pickle
+from sklearn.model_selection import train_test_split
+import json
+
 import io
 from shapash.data.data_loader import data_loading
 import pandas as pd
@@ -63,42 +66,44 @@ server = Flask(__name__)
 server.secret_key ='dfdfdfdf'
 
 dforiginal=pd.read_csv('application_test.csv', encoding="UTF-8")
-dforiginal2=pd.read_csv('df_P7Clean.csv',encoding="UTF-8")
+# dforiginal2=pd.read_csv('df_P7Clean.csv',encoding="UTF-8")
 
 df=pd.DataFrame.copy(dforiginal.dropna().head(1000))
-df2=pd.DataFrame.copy(dforiginal2.dropna().head(1000))
+# df2=pd.DataFrame.copy(dforiginal2.dropna().head(1000))
 dfPrep=pd.get_dummies(df)
-dfPrep2=pd.get_dummies(df2)
+# dfPrep2=pd.get_dummies(df2)
 train,test=train_test_split(dfPrep)
-train2,test2=train_test_split(dfPrep2)
+# train2,test2=train_test_split(dfPrep2)
 x_test=test
-create(server)
+with open("pickle_model.pkl", 'rb') as file:
+   pickle_model = pickle.load(file)
+# create(server)
 
-df_majority = train2[train2.TARGET == 0]
-df_minority = train2[train2.TARGET == 1]
-df_minority_upsampled = resample(df_minority, replace=True, n_samples=df_majority.shape[0], random_state=123)
-dftrain = pd.concat([df_majority, df_minority_upsampled])
-dftrain.TARGET.value_counts()
+# df_majority = train2[train2.TARGET == 0]
+# df_minority = train2[train2.TARGET == 1]
+# df_minority_upsampled = resample(df_minority, replace=True, n_samples=df_majority.shape[0], random_state=123)
+# dftrain = pd.concat([df_majority, df_minority_upsampled])
+# dftrain.TARGET.value_counts()
 
-x_train2 = dftrain.drop('TARGET', axis=1)
-y_train2 = dftrain['TARGET']
-x_test2 = test2.drop('TARGET', axis=1)
-y_test2 = test2['TARGET']
-modele = RandomForestClassifier().fit(x_train2, y_train2)
+# x_train2 = dftrain.drop('TARGET', axis=1)
+# y_train2 = dftrain['TARGET']
+# x_test2 = test2.drop('TARGET', axis=1)
+# y_test2 = test2['TARGET']
+# modele = RandomForestClassifier().fit(x_train2, y_train2)
 
-xpl = SmartExplainer()
-xpl.compile(
-    x=x_test2,
-    model=modele)
-app = xpl.run_app(host='localhost')
+# xpl = SmartExplainer()
+# xpl.compile(
+#     x=x_test2,
+#     model=modele)
+# app = xpl.run_app(host='localhost')
 
 
 @server.route("/dash")
 def my_dash_app():
   return '<a href=' + url_for('index') + '> retour </a>'
 
-with open("pickle_model.pkl", 'rb') as file:
-   pickle_model = pickle.load(file)
+# with open("pickle_model.pkl", 'rb') as file:
+#    pickle_model = pickle.load(file)
 
 def predit(x):
     client = dfPrep[dfPrep['SK_ID_CURR'] == x]
@@ -141,10 +146,10 @@ def login():
         book = [book for book in jj if book['SK_ID_CURR'] == int(username)]
         return render_template("resultat.html", resultat=book[0]['prediction'])
 
-@server.route('/sheeesh')
-def sheesh():
-    app=xpl.run_app(host='localhost')
-    return '<a href=' + url_for('index') + '> retour </a>'
+# @server.route('/sheeesh')
+# def sheesh():
+#     app=xpl.run_app(host='localhost')
+#     return '<a href=' + url_for('index') + '> retour </a>'
 
 
 if __name__=="__main__":
