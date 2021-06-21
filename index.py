@@ -14,7 +14,7 @@ import p7_2,p7_1
 # PATH = pathlib.Path(__file__).parent
 # DATA_PATH = PATH.joinpath("../").resolve()
 dforiginal = pd.read_csv("df_P7Clean.csv")
-df=pd.DataFrame.copy(dforiginal.dropna().head(1000))
+df=pd.DataFrame.copy(dforiginal.dropna().head(100))
 df['Ratio-GP-Annuity'] = ((df['AMT_INCOME_TOTAL']) / (df['AMT_CREDIT']))
 df["Monthly"] = df['AMT_ANNUITY'] / 12
 df["Mean_AMT_INCOME_TOTAL"] = np.mean(df['AMT_INCOME_TOTAL'])
