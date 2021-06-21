@@ -9,9 +9,10 @@ from dash.dependencies import Input, Output
 import pickle
 import json
 import pathlib
+from app import app
 from app import server
 
-server.layout = html.Div([
+app.layout = html.Div([
     html.P(['Entrer votre numero de clients et appuyez sur " Entrez " ']),
     html.Div([
         dcc.Input(
@@ -47,4 +48,4 @@ server.layout = html.Div([
 ])
 
 if __name__ == '__main__':
-    server.run()
+    app.run_server(debug=False)
