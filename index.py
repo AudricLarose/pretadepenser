@@ -1,16 +1,18 @@
-
+import pandas as pd
+import plotly.express as px  # (version 4.7.0)
+import plotly.graph_objects as go
+import numpy as np
 import dash  # (version 1.12.0) pip install dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import pickle
-# from sklearn.model_selection import train_test_split
 import json
 import pathlib
 
-app = dash.Dash(__name__, suppress_callback_exceptions=True)
+server = dash.Dash(__name__, suppress_callback_exceptions=True)
 
-app.layout = html.Div([
+server.layout = html.Div([
     html.P(['Entrer votre numero de clients et appuyez sur " Entrez " ']),
     html.Div([
         dcc.Input(
@@ -44,5 +46,6 @@ app.layout = html.Div([
     html.Div(id='page-content',children=[]),
 
 ])
+
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    server.run_server(debug=True)
