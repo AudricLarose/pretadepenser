@@ -95,92 +95,26 @@ def update_graph2   (pathname):
         return p7_1.layout
     if pathname=='/p7_2':
         return p7_2.layout
-#
-# @app.callback(
-#     [Output(component_id='output_container12', component_property='children'),
-#      Output(component_id='graphique12', component_property='figure'),
-#      Output(component_id='graphique77', component_property='figure')],
-#     [Input(component_id='slct_Target12', component_property='value')]
-# )
-# def update_graph2(option_slctd):
-#     print(option_slctd)
-#     print(type(option_slctd))
-#     container = ""
-#     fig = px.scatter(data_frame=df, x='AMT_INCOME_TOTAL', y=option_slctd, color='TARGET', template='plotly_dark',
-#                      log_x=True, marginal_y="violin",
-#                      marginal_x="box", trendline="ols")
-#     fig2 = px.histogram(data_frame=df, x=option_slctd, color='TARGET', template='plotly_dark',
-#                         log_x=True, marginal='rug')
-#     return container, fig, fig2
-#
-# @app.callback(
-#     Output(component_id='reponse', component_property='children'),
-#     [Input(component_id='my_txt_input', component_property='value')]
-# )
-# def numberchooser(option_slctd=""):
-#     container=""
-#     if option_slctd:
-#         if (len(option_slctd)==6):
-#          print(option_slctd)
-#          book = [book for book in jj if book['SK_ID_CURR'] == int(option_slctd)]
-#          print(book)
-#          if not book:
-#              container = "Nous n'avons pas trouvé votre dossier"
-#          else:
-#              container=book[0]['prediction']
-#         else : container = " "
-#
-#
-#
-#     return container
-#
-#
-#
-# @app.callback(
-#     [Output(component_id='output_container14', component_property='children'),
-#      Output(component_id='graphique14', component_property='figure')],
-#     [Input(component_id='slct_Target14', component_property='value')]
-# )
-# def update_graph3(option_slctd):
-#     print(option_slctd)
-#     print(type(option_slctd))
-#     container = ""
-#     fig = px.histogram(data_frame=df,x=option_slctd,color='TARGET',template='plotly_dark',)
-#     return container, fig
-#
-# @app.callback(
-#     [Output(component_id='output_container2', component_property='children'),
-#      Output(component_id='graphique4', component_property='figure'),
-#      Output(component_id='graphique5', component_property='figure'),
-#      Output(component_id='graphique7', component_property='figure')],
-#     [Input(component_id='slct_Target2', component_property='value')]
-# )
-# def update_graph2(option_slctd):
-#     print(option_slctd)
-#     print(type(option_slctd))
-#     option_slctd = int(option_slctd)
-#     container = ""
-#     langs = ['Vous', 'Moyenne Revenues Totales']
-#     students = [int(df[df['SK_ID_CURR'] == option_slctd]['AMT_INCOME_TOTAL']),
-#                 int(df[df['SK_ID_CURR'] == option_slctd]['Mean_AMT_INCOME_TOTAL'])]
-#     print(df.select_dtypes('float64').columns)
-#     fig1 = px.histogram(data_frame=df, x=df['AMT_INCOME_TOTAL'],log_x=True)
-#     fig1.add_vline(x=int(df[df['SK_ID_CURR'] == option_slctd]['AMT_INCOME_TOTAL']),line_dash="dash", line_color="red",
-#
-#                    fillcolor="green")
-#     fig1.add_annotation(x=df[df['SK_ID_CURR'] == option_slctd]['AMT_INCOME_TOTAL'],y=0,showarrow=False,text='<b>Vous</b>',
-#                             textangle=0,arrowcolor='red')
-#     fig2 = px.histogram(data_frame=df, x=df['AMT_CREDIT'], template='plotly_dark',log_x=True)
-#     fig2.add_vline(x=int(df[df['SK_ID_CURR'] == option_slctd]['AMT_CREDIT']),line_dash="dash", line_color="red")
-#     fig2.add_annotation(x=df[df['SK_ID_CURR'] == option_slctd]['AMT_CREDIT'],y=0,showarrow=False,text='<b>Vous</b>',
-#                             textangle=0,arrowcolor='red')
-#
-#     fig4 = px.histogram(data_frame=df, x=df['AMT_ANNUITY'],log_x=True)
-#     fig4.add_vline(x=int(df[df['SK_ID_CURR'] == option_slctd]['AMT_ANNUITY']),line_dash="dash", line_color="red")
-#     fig4.add_annotation(x=df[df['SK_ID_CURR'] == option_slctd]['AMT_ANNUITY'],y=0,showarrow=False,text='<b>Vous</b>',
-#                             textangle=0,arrowcolor='red')
-#
-#     return container,fig1, fig2, fig4
+
+@app.callback(
+        Output(component_id='reponse', component_property='children'),
+        [Input(component_id='my_txt_input', component_property='value')]
+)
+def numberchooser(option_slctd=""):
+        container = ""
+        if option_slctd:
+            if (len(option_slctd) == 6):
+                print(option_slctd)
+                book = [book for book in jj if book['SK_ID_CURR'] == int(option_slctd)]
+                print(book)
+                if not book:
+                    container = "Nous n'avons pas trouvé votre dossier"
+                else:
+                    container = book[0]['prediction']
+            else:
+                container = " "
+
+        return container
 
 
 if __name__ == '__main__':
