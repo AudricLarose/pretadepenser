@@ -12,7 +12,7 @@ from app import server
 # PATH = pathlib.Path(__file__).parent
 # DATA_PATH = PATH.joinpath("../mypython").resolve()
 
-df = pd.read_csv("df_P7Clean.csv")  # GregorySmith Kaggle
+df = pd.read_csv("df_P7Clean.csv")
 
 df['Ratio-GP-Annuity'] = ((df['AMT_INCOME_TOTAL']) / (df['AMT_CREDIT']))
 df["Monthly"] = df['AMT_ANNUITY'] / 12
@@ -21,6 +21,22 @@ df["Mean_Monthly"] = np.mean(df['Monthly'])
 df["Mean_ANNUITY"] = np.mean(df['AMT_ANNUITY'])
 df["Mean_AMT_CREDIT"] = np.mean(df['AMT_CREDIT'])
 df["Mean_AMT_GOODS_PRICE"] = np.mean(df['AMT_GOODS_PRICE'])
+df['BIRTH_EMPLOTED_INTERVEL'] = df.DAYS_EMPLOYED - df.DAYS_BIRTH
+df['BIRTH_REGISTRATION_INTERVEL'] = df.DAYS_REGISTRATION - df.DAYS_BIRTH
+df['INCOME_PER_FAMILY_MEMBER'] = df.AMT_INCOME_TOTAL / df.CNT_FAM_MEMBERS
+df['SEASON_REMAINING'] = df.AMT_INCOME_TOTAL/4 -  df.AMT_ANNUITY
+df['RATIO_INCOME_GOODS'] = df.AMT_INCOME_TOTAL -  df.AMT_GOODS_PRICE
+df['CHILDREN_RATIO'] = df['CNT_CHILDREN'] / df['CNT_FAM_MEMBERS']
+df['OVER_EXPECT_CREDIT'] = (df.AMT_CREDIT > df.AMT_GOODS_PRICE).map({False:0, True:1})
+df['BIRTH_EMPLOTED_INTERVEL'] = df.DAYS_EMPLOYED - df.DAYS_BIRTH
+df["Mean_AMT_INCOME_TOTAL"]=np.mean(df['AMT_INCOME_TOTAL'])
+df['Ratio-GP-Annuity']=((df['AMT_INCOME_TOTAL'])/(df['AMT_CREDIT']))
+df["Monthly"]=df['AMT_ANNUITY']/12
+df["Mean_Monthly"]=np.mean(df['Monthly'])
+df["Mean_ANNUITY"]=np.mean(df['AMT_ANNUITY'])
+df["Mean_AMT_CREDIT"]=np.mean(df['AMT_CREDIT'])
+df["Mean_AMT_GOODS_PRICE"]=np.mean(df['AMT_GOODS_PRICE'])
+df['TERM'] = df.AMT_CREDIT / df.AMT_ANNUITY
 
 layout = html.Div([
 
