@@ -58,8 +58,8 @@ def predit(x):
 df['prediction']=df['SK_ID_CURR'].apply(lambda x : predit(x))
 dfenw=df[['SK_ID_CURR','prediction']]
 booksdata=dfenw.to_dict(orient="index")
-print(df.head())
-print(dfenw.head())
+print(df)
+print(dfenw)
 print(booksdata)
 todictionnaire=[data for data in booksdata.values()]
 print(todictionnaire)
